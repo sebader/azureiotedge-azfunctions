@@ -1,0 +1,17 @@
+{
+    "bindings": [
+        {
+            "name": "myTimer",
+            "type": "timerTrigger",
+            "direction": "in",
+            "schedule": "*/5 * * * * *"
+          },
+        {
+            "type": "edgeHub",
+            "name": "output",
+            "outputName": "alertOutput",
+            "batchSize": 10,
+            "direction": "out"
+        }
+    ]
+}
