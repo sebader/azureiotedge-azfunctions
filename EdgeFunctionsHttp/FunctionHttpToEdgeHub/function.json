@@ -1,0 +1,26 @@
+{
+    "bindings": [
+        {
+            "authLevel": "anonymous",
+            "name": "req",
+            "type": "httpTrigger",
+            "direction": "in",
+            "methods": [
+              "post",
+              "get"
+            ]
+          },
+          {
+            "name": "$return",
+            "type": "http",
+            "direction": "out"
+          },
+        {
+            "type": "edgeHub",
+            "name": "output",
+            "outputName": "defaultOutput",
+            "batchSize": 10,
+            "direction": "out"
+        }
+    ]
+}
