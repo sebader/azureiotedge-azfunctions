@@ -1,4 +1,4 @@
-#EdgeFunctionTimer
+# Edge Function Timer triggered
 
 Example for a timer triggered Azure function which sends data into Edge Hub queue.
 
@@ -6,7 +6,7 @@ Note: To run this function, you need to specify an Azure storage account connect
 
 {
   "Env": [
-    "AzureWebJobsStorage=DefaultEndpointsProtocol=https;AccountName=****MYACCOUNTNAME****;AccountKey=******StorageKey********"
+    "AzureWebJobsStorage=DefaultEndpointsProtocol=https;AccountName=[[MYACCOUNTNAME]];AccountKey=[[StorageKey]]"
   ]
 }
 
