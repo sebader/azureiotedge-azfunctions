@@ -1,6 +1,6 @@
 #r "Microsoft.Azure.Devices.Client"
 #r "Newtonsoft.Json"
-#r "System.Linq"
+#r "System.Linq" 
 #r "System.Net.Http"
 
 using System.Net;
@@ -9,9 +9,19 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Linq;
 using Newtonsoft.Json;
+using System.Linq; 
 
+// Not all using and reference statements are currently used. Just as an example here
+
+/// <summary>
+/// Azure Function to be executed as an IoT Edge module
+/// Takes http POST request and writes the http body content out to EdgeHub for further processing
+/// </summary>
+/// <param name="req">http request</param>
+/// <param name="output">IoT Edge Hub output queue</param>
+/// <param name="log"></param>
+/// <returns></returns>
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsyncCollector<Message> output, TraceWriter log)
 {
     log.Info("C# Edge HTTP trigger function received a request.");
@@ -20,7 +30,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
     string body = await req.Content.ReadAsStringAsync();
 
 
-    // // How to read (GET) query parameters
+    // // Example on how to read (GET) query parameters
     // var queryDictionary = QueryHelpers.ParseQuery(req.RequestUri.Query);
     // foreach(var key in queryDictionary.Keys)
     // {
@@ -31,6 +41,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
     if (!string.IsNullOrEmpty(body))
     {
         log.Info($"Received a message. Body content: {body}");
+
+        // We build some arbitrary telemetry message to put into the queue, using the http body content
         var telemetryDataPoint = new
         {
             edgeHubContent = body,
@@ -40,15 +52,15 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
         var outMessageString = JsonConvert.SerializeObject(telemetryDataPoint);
         var outMessage = new Message(Encoding.UTF8.GetBytes(outMessageString));
 
+        log.Info($"Writing out the message to IoT Edge Hub queue: [ {outMessageString} ]");
         await output.AddAsync(outMessage);
-        log.Info($"Piped out the message to IoT Edge: [ {outMessageString} ]");
 
         var res = new HttpResponseMessage(HttpStatusCode.OK);
-        res.Content = new ByteArrayContent(Encoding.UTF8.GetBytes($"All good. {body} was sent to EdgeHub"));
+        res.Content = new ByteArrayContent(Encoding.UTF8.GetBytes($"Done. Body content [ {body} ] was sent to IoT Edge Hub"));
         return res;
     }
 
     var resError = new HttpResponseMessage(HttpStatusCode.BadRequest);
-    resError.Content = new ByteArrayContent(Encoding.UTF8.GetBytes($"Missing body content. Could not process your request for EdgeHub."));
+    resError.Content = new ByteArrayContent(Encoding.UTF8.GetBytes($"Missing body content. Could not process your request to IoT Edge Hub."));
     return resError;
 }
