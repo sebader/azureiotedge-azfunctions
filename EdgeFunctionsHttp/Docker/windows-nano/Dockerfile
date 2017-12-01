@@ -4,4 +4,6 @@ ENV AzureWebJobsScriptRoot=c:\\approot
 
 ARG EXE_DIR=.
 
+EXPOSE 80
+
 COPY $EXE_DIR/ c:\\approot
