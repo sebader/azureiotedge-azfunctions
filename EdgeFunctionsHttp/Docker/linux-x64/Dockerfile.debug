@@ -4,6 +4,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 
 ARG EXE_DIR=.
 
+EXPOSE 80
+
 RUN apt-get update
 
 RUN apt-get install -y unzip procps
