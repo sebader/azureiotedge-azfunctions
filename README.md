@@ -6,4 +6,5 @@ Very important note: IoT Edge Functions (in C#) only support .NET Core! Therefor
 Detailed description on how to build and deploy the functions can be found in the official documentation: https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-deploy-function
 
 
-Please feel free to extend the existing examples our create new example and make a pull request!
+
+Please feel free to extend the existing examples or create new examples and make a pull request!
